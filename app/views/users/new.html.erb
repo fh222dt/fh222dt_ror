@@ -1,0 +1,31 @@
+<% if @user.errors.any? %>
+    <div class="alert alert-info" role="alert">
+        <h2>Det finns fel i formuläret:</h2>
+        
+        <ul>
+            <% @user.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+            <% end %>
+        </ul>
+    </div>
+<% end %>
+
+<div id="login">
+    <h2>Registrera dig</h2>
+    
+    <fieldset>
+    <%= form_for @user do|f| %>
+        <p><%= f.label :email %></p>
+        <p><%= f.email_field :email %></p>
+        
+        <p><%= f.label :password %></p>
+        <p><%= f.password_field :password %></p>
+        
+        <p><%= f.label :password_confirmation %></p>
+        <p><%= f.password_field :password_confirmation %></p>
+        
+        <p><%= f.submit :"Registrera" %></p>
+    
+    <% end %>
+    </fieldset>
+</div>

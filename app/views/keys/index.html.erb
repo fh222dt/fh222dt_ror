@@ -1,0 +1,30 @@
+<h1>Apinyckel</h1>
+<% if flash[:notice] %>
+<div class="alert alert-info" role="alert">
+    <%= flash[:notice] %>
+</div>
+<% end %>
+<p>Dina registrerade nycklar:</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nyckel</th>
+            <th>Url</th>
+            <th>Ta bort</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @allkeys.each do |apikey| %>
+            <tr>
+              <td><%= apikey.key %></td>
+              <td><%= apikey.url %></td>
+              <td><%= button_to 'Ta bort',  apikey,
+                        data: { confirm: 'Ta bort?' }, method: :delete %></td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<%= link_to "Registrera ny nyckel", new_key_path %><br>
+<%= link_to "Logga ut", logout_path %> 

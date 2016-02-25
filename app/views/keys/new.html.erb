@@ -1,0 +1,29 @@
+<% if @apikey.errors.any? %>
+    <div id="error_messages">
+        <h2>Det finns fel i formuläret:</h2>
+        
+        <ul>
+            <% @apikey.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+            <% end %>
+        </ul>
+    </div>
+<% end %>
+<div>
+    <h2>Registrera ny api-nyckel</h2>
+    
+    <fieldset>
+    <%= form_for @apikey do|f| %>
+        <p><%= f.label :aplikationens_namn %></p>
+        <p><%= f.text_field :application_name %></p>
+        
+        <p><%= f.label :url %></p>
+        <p><%= f.text_field :url %></p>
+        
+        <p><%= f.submit :"Registrera" %></p>
+    
+    <% end %>
+    </fieldset>
+    
+    
+</div>

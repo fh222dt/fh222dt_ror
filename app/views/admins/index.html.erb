@@ -1,0 +1,35 @@
+<h1>Adminpanel</h1>
+
+<% if flash[:notice] %>
+<div class="alert alert-info" role="alert">
+    <%= flash[:notice] %>
+</div>
+<% end %>
+
+<p>Alla registrerade nycklar visas nedan:</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nyckel</th>
+            <th>Applikation</th>
+            <th>Url</th>
+            <th>Ägare</th>
+            <th>Ta bort</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @apikeys.each do |apikey| %>
+            <tr>
+              <td><%= apikey.key %></td>
+              <td><%= apikey.application_name %></td>
+              <td><%= apikey.url %></td>                                
+              <td><%= apikey.user.email %></td>             
+              <td><%= button_to 'Ta bort',  apikey,
+                        data: { confirm: 'Ta bort?' }, method: :delete %></td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
+
+
+<%= link_to "Logga ut", logout_path %>
