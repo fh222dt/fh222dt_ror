@@ -13,3 +13,6 @@ Du loggar in med alla typer av användare från samma formulär på startsidan
 - Användare: dev@test.se lösen "hejhej"
 
 Fler användare finns i seedsfilen
+
+
+(Jag råkade ta bort alla mina commits när jag körde fel kommando, så det ser lite illa ut på commitfronten)
