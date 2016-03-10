@@ -2,7 +2,7 @@ class KeysController < ApplicationController
     before_action :require_login
     
     def index
-        @allkeys = @current_user.keys.all
+        @allkeys = @current_user.keys.paginate(page: params[:page])
     end
     
     def new 

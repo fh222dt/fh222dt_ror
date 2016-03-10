@@ -25,6 +25,7 @@
         <% end %>
     </tbody>
 </table>
+<%= will_paginate @allkeys %>
 
 <%= link_to "Registrera ny nyckel", new_key_path %><br>
 <%= link_to "Logga ut", logout_path %> 

@@ -3,7 +3,7 @@ class AdminsController < ApplicationController
     
     def index
         if @current_user.isAdmin 
-            @apikeys = Key.joins(:user)
+            @apikeys = Key.joins(:user).paginate(page: params[:page])
         else
             redirect_to keys_path
         end
