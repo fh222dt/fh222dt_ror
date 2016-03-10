@@ -4,11 +4,13 @@ class Key < ActiveRecord::Base
     before_create :generateRandom
     
     validates :application_name,
-                :presence => {:message => "Ange din applikations namn"}
+                :presence => {:message => "Ange din applikations namn"},
+                :length => {:maximum => 50, :too_long => "Namnet får inte vara mer än %{count} tecken långt"}
                 
-    validates :url,             #TODO regex för www
+    validates :url,
                 :presence => {:message => "Ange din applikations url"},
-                uniqueness: true
+                :uniqueness => true,
+                :length => {:maximum => 100, :too_long => "Namnet får inte vara mer än %{count} tecken långt"}
                 
     #generate random string for api key 
     def generateRandom
