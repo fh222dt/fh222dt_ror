@@ -32,4 +32,4 @@
 </table>
 
 <%= will_paginate @apikeys %>
-<%= link_to "Logga ut", logout_path %>
+<%= link_to "Logga ut", logout_path, data: {no_turbolink: true} %>

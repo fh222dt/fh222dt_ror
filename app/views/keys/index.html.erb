@@ -28,4 +28,4 @@
 <%= will_paginate @allkeys %>
 
 <%= link_to "Registrera ny nyckel", new_key_path %><br>
-<%= link_to "Logga ut", logout_path %> 
+<%= link_to "Logga ut", logout_path, , data: {no_turbolink: true} %> 
