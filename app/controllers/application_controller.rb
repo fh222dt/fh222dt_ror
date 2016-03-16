@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  #include SessionsHelper
   
   protected
   def set_cache_buster
