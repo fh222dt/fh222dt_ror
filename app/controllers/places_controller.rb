@@ -1,12 +1,12 @@
 class PlacesController < ApplicationController
-    
+    before_action :offset_params, only: [:index, :nearby]
     respond_to :json
     
     def index
-        @places = Place.all
+        places = Place.limit(@limit).offset(@offset)
+        no = Place.distinct.count(:id);
         
-        respond_with(@places, templete: "places/places")
-        #render json: {:places =>@places}.to_json
+        respond_with places, status: :ok, location: places_path, no_of_places: no
     end
     
     def show

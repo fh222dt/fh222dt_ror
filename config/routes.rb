@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   
   resources :keys
   resources :users
+  resources :places
+  resources :comments
   
   
   

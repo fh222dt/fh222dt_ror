@@ -48,7 +48,7 @@ tag6 = Tag.create(name: 'Handikappanpassat')
     
 
 #Seed picknick places
-10.times do |n|
+35.times do |n|
   user  = Faker::Number.between(1, 3)
   long = Faker::Address.longitude
   lat = Faker::Address.latitude

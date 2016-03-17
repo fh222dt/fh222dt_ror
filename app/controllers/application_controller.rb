@@ -2,6 +2,22 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+  #before_action :default_format_json
+  
+  #check if user whant offset/limit
+  OFFSET = 0
+  LIMIT = 20
+  def offset_params
+    if params[:offset].present?
+      @offset = params[:offset].to_i
+    end
+    if params[:limit].present?
+      @limit = params[:limit].to_i
+    end
+    @offset ||= OFFSET
+    @limit  ||= LIMIT
+  end
+  
   
   def current_user
     @current_user ||= User.find(session[:userid]) if session[:userid]
@@ -21,11 +37,12 @@ class ApplicationController < ActionController::Base
     response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
   
-  before_action :default_format_json
-  def default_format_json
-    if((request.headers["HTTP_ACCEPT"].nil? && params[:format].nil?))
-      request.format ="json"
-    end
-  end
+  #TODO
+  
+  # def default_format_json
+  #   if((request.headers["HTTP_ACCEPT"].nil? && params[:format].nil?))
+  #     request.format ="json"
+  #   end
+  # end
   
 end

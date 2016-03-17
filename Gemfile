@@ -53,3 +53,5 @@ gem 'bootstrap-will_paginate', '0.0.10'
 
 gem 'tzinfo-data'
 
+gem 'responders', '~> 2.0' 
+
