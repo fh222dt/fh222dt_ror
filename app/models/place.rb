@@ -3,7 +3,13 @@ class Place < ActiveRecord::Base
     
     has_and_belongs_to_many :tags
     has_many :comments
-    belongs_to :users
+    belongs_to :user
+    
+    validates :city, presence: true,
+                     length: {maximum: 50}
+                     
+    validates :description, presence: true,
+                     length: {maximum: 150}
     
     def as_json(options={})
         super(options.merge(:except =>[:created_at],

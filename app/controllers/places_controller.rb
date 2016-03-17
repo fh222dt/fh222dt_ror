@@ -1,5 +1,7 @@
 class PlacesController < ApplicationController
-    before_action :offset_params, only: [:index, :nearby]
+    before_action :offset_params, only: [:index]
+    skip_before_action :authenticate, only: [:index, :show]
+
     respond_to :json
     
     def index
@@ -10,8 +12,35 @@ class PlacesController < ApplicationController
     end
     
     def show
-        @place = Place.find_by_id(params[:id])
+        place = Place.find_by_id(params[:id])
         
-        respond_with @place
+        if place.present?
+            respond_with place, location: places_path(place)
+        else
+            render json: { error: "Picknickplats hittades inte. Har du skrivit rätt id?"}, status: :not_found
+        end
+    end
+    
+    def create
+        place = Place.new(place_params)
+        place.user_id = 7   #current_user.id             #TODO är detta säkert?
+        
+        #is there any tags to this picknick place?
+        if place_params[:tags].present?
+            tags = place_params[:tags]
+            tags.each do |t|
+                place.tags << Tag.where(tag).first_or_create
+            end
+        end
+        
+        if place.save
+            respond_with place, status: :created
+        else
+            render json: { errors: place.errors.messages }, status: :bad_request
+        end
+    end
+    
+    def place_params    #TODO
+        params.permit(:longitude, :latitude, :city, :description, :tags [:name])
     end
 end
