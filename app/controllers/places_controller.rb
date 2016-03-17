@@ -5,7 +5,7 @@ class PlacesController < ApplicationController
     def index
         @places = Place.all
         
-        respond_with @places, :except => [], :status => 202         #finns fler parametrar att använda
+        respond_with(@places, templete: "places/places")
         #render json: {:places =>@places}.to_json
     end
     

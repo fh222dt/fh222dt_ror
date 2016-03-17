@@ -37,3 +37,45 @@ api_keys = Key.create (
                url:                 url,
                user_id:             user)
 end
+
+#Seed tags
+tag1 = Tag.create(name: 'Barnvänligt')
+tag2 = Tag.create(name: 'Vacker utsikt')
+tag3 = Tag.create(name: 'Romantiskt')
+tag4 = Tag.create(name: 'Naturmiljö')
+tag5 = Tag.create(name: 'Stadsmiljö')
+tag6 = Tag.create(name: 'Handikappanpassat')
+    
+
+#Seed picknick places
+10.times do |n|
+  user  = Faker::Number.between(1, 3)
+  long = Faker::Address.longitude
+  lat = Faker::Address.latitude
+  city = Faker::Address.city
+  desc = Faker::Lorem.paragraph
+  
+ picknick = Place.create!(user_id: user,
+                longitude: long,
+                latitude: lat,
+                city: city,
+                description: desc)
+ 
+ picknick.tags << tag2
+ 
+ # picknick.tags.create(
+ #    place_id: Faker::Number.between(1, 10),
+ #   tag_id: Faker::Number.between(1, 6))
+    
+end
+
+#Seed comments
+20.times do |n|
+  user  = Faker::Number.between(1, 3)
+  place = Faker::Number.between(1, 10)
+  desc = Faker::Lorem.paragraph
+  
+  Comment.create!(user_id: user,
+                place_id: place,
+                text: desc)
+end
