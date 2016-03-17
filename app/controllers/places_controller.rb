@@ -24,7 +24,7 @@ class PlacesController < ApplicationController
     
     def create
         place = Place.new(place_params)
-        place.user_id = 7   #current_user.id             #TODO är detta säkert?
+        place.user_id = current_user.id             #TODO är detta säkert?
         
         #is there any tags to this picknick place?
         if place_params[:tags].present?
@@ -38,6 +38,25 @@ class PlacesController < ApplicationController
             respond_with place, status: :created
         else
             render json: { errors: place.errors.messages }, status: :bad_request
+        end
+    end
+    
+    def update
+        if Place.find_by_id(params[:id]).nil?
+            render json: { error: "Hittade inte platsen, stämmer id?" }, status: :bad_request
+        else
+            @place = Place.find_by_id_and_user_id(params["id"], @user.id) || nil
+            if @place.nil?
+                render json: { error: "Du har inte rättigheter att ändra denna plats, äger du den?" }, status: :bad_request
+            else
+        
+                if @place.update(city: params["city"], description: params["description"]);     #TODO fyll på med fler
+                    @place = Place.find_by_id(params["id"])
+                    respond_with @place, status: :ok, location: places_path(@place)
+                else
+                    render json: { error: "Kunde inte uppdatera platsen, stämmer parametrarna?" }, status: :bad_request
+                end
+            end
         end
     end
     
