@@ -55,3 +55,5 @@ gem 'tzinfo-data'
 
 gem 'responders', '~> 2.0' 
 
+gem 'knock'
+

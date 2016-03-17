@@ -1,6 +1,7 @@
 class PlacesController < ApplicationController
     before_action :offset_params, only: [:index]
-    skip_before_action :authenticate, only: [:index, :show]
+    before_action :authenticate, only: [:create]
+    before_action :api_key
 
     respond_to :json
     

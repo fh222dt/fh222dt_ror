@@ -2,7 +2,9 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  #before_action :default_format_json
+  before_action :set_cache_buster
+  
+  include Knock::Authenticable
   
   #check if user whant offset/limit
   OFFSET = 0
@@ -44,5 +46,13 @@ class ApplicationController < ActionController::Base
   #     request.format ="json"
   #   end
   # end
+  
+  def api_key
+    if
+     Key.find_by(key: params[:api_key])
+    else
+      render json: { error: "Ogiltig apinyckel" }, status: :unauthorized
+    end
+  end
   
 end
