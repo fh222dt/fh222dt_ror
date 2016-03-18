@@ -1,7 +1,15 @@
 class PlacesController < ApplicationController
     before_action :offset_params, only: [:index]
-    before_action :authenticate, only: [:create]
+    before_action :authenticate, only: [:create, :update]
     before_action :api_key
+    
+    
+    
+    #@current_user = 5
+    
+    
+    
+    
 
     respond_to :json
     
@@ -42,25 +50,63 @@ class PlacesController < ApplicationController
     end
     
     def update
-        if Place.find_by_id(params[:id]).nil?
-            render json: { error: "Hittade inte platsen, stämmer id?" }, status: :bad_request
-        else
-            @place = Place.find_by_id_and_user_id(params["id"], @user.id) || nil
-            if @place.nil?
-                render json: { error: "Du har inte rättigheter att ändra denna plats, äger du den?" }, status: :bad_request
-            else
-        
+        if @place = Place.find_by_id(params[:id])
+            if current_user.id == @place.user_id
                 if @place.update(city: params["city"], description: params["description"]);     #TODO fyll på med fler
-                    @place = Place.find_by_id(params["id"])
-                    respond_with @place, status: :ok, location: places_path(@place)
+                     respond_with @place do |format|
+                        format.json { render json: { action: "update", place: @place }, status: :ok }
+                        end
                 else
                     render json: { error: "Kunde inte uppdatera platsen, stämmer parametrarna?" }, status: :bad_request
                 end
+            else
+                render json: { error: "Du har inte rättigheter att ändra denna plats, äger du den?" }, status: :bad_request
             end
+        else
+            render json: { error: "Kunde inte hitta platsen" }, status: :bad_request  
         end
+        
     end
     
+    def destroy
+        if @place = Place.find_by_id(params["id"])
+            if current_user = @place.user_id
+            
+            
+            
+            @place = Place.find_by_id_and_user_id(params["id"], @user.id) || nil
+        if @place.nil?
+            render json: { error: "Hittade inte platsen, stämmer id?" }, status: :not_found
+        else
+            if @place.destroy
+                respond_with @place, status: :removed
+            else
+              render json: { error: "Du får inte ta bort den här platsen!" }, status: :unauthorized
+            end
+        end
+        else
+            render json: { error: "Kan inte hitta den efterfrågade platsen" }, status: :bad_request
+        end
+        # if @place = Place.find_by_id(params["id"])
+        #     @place = Place.find_by_id_and_user_id(params["id"], @user.id) || nil
+        # if @place.nil?
+        #     render json: { error: "Hittade inte platsen, stämmer id?" }, status: :not_found
+        # else
+        #     if @place.destroy
+        #         respond_with @place, status: :removed
+        #     else
+        #       render json: { error: "Du får inte ta bort den här platsen!" }, status: :unauthorized
+        #     end
+        # end
+        # else
+        #     render json: { error: "Kan inte hitta den efterfrågade platsen" }, status: :bad_request
+        # end
+    end
+    
+    
+    
+    
     def place_params    #TODO
-        params.permit(:longitude, :latitude, :city, :description, :tags [:name])
+        params.permit(:city, :description)
     end
 end
