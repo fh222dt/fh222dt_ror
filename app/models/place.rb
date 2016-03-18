@@ -14,8 +14,7 @@ class Place < ActiveRecord::Base
     def as_json(options={})
         super(options.merge(:except =>[:created_at],
         :include =>[:comments => {:except =>[:id, :user_id, :place_id, :updated_at]},:tags => {:except =>[:id, :created_at, :updated_at]} ],
-        #:include =>[:tags => {:except =>[:id, :created_at, :updated_at]}],
-        :methods => :links))
+        :methods => :place_links))
     end
     
     #TODO
@@ -23,7 +22,7 @@ class Place < ActiveRecord::Base
     #enskild
     #all från samma anv
     #i närheten??? geografiskt omr
-    def links
+    def place_links
         {:self =>place_path(self), :user =>user_path(self)}
     end
     

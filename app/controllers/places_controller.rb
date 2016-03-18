@@ -3,14 +3,6 @@ class PlacesController < ApplicationController
     before_action :authenticate, only: [:create, :update]
     before_action :api_key
     
-    
-    
-    #@current_user = 5
-    
-    
-    
-    
-
     respond_to :json
     
     def index
@@ -65,7 +57,6 @@ class PlacesController < ApplicationController
         else
             render json: { error: "Kunde inte hitta platsen" }, status: :bad_request  
         end
-        
     end
     
     def destroy
@@ -79,23 +70,6 @@ class PlacesController < ApplicationController
         else
             render json: { error: "Hittar inte picknickplatsen" }, status: :bad_request
         end
-         
-         
-         
-        # if @place = Place.find_by_id(params["id"])
-        #     @place = Place.find_by_id_and_user_id(params["id"], @user.id) || nil
-        # if @place.nil?
-        #     render json: { error: "Hittade inte platsen, stämmer id?" }, status: :not_found
-        # else
-        #     if @place.destroy
-        #         respond_with @place, status: :removed
-        #     else
-        #       render json: { error: "Du får inte ta bort den här platsen!" }, status: :unauthorized
-        #     end
-        # end
-        # else
-        #     render json: { error: "Kan inte hitta den efterfrågade platsen" }, status: :bad_request
-        # end
     end
     
     
