@@ -60,7 +60,7 @@ class PlacesController < ApplicationController
                     render json: { error: "Kunde inte uppdatera platsen, stämmer parametrarna?" }, status: :bad_request
                 end
             else
-                render json: { error: "Du har inte rättigheter att ändra denna plats, äger du den?" }, status: :bad_request
+                render json: { error: "Du har inte rättigheter att ändra denna plats, äger du den?" }, status: :unauthorized
             end
         else
             render json: { error: "Kunde inte hitta platsen" }, status: :bad_request  
@@ -70,23 +70,18 @@ class PlacesController < ApplicationController
     
     def destroy
         if @place = Place.find_by_id(params["id"])
-            if current_user = @place.user_id
-            
-            
-            
-            @place = Place.find_by_id_and_user_id(params["id"], @user.id) || nil
-        if @place.nil?
-            render json: { error: "Hittade inte platsen, stämmer id?" }, status: :not_found
-        else
-            if @place.destroy
-                respond_with @place, status: :removed
+            if current_user.id == @place.user_id
+                @place.destroy
+                render json: { action: "destroy", message: "Picknickplats borttagen" }, status: :ok
             else
-              render json: { error: "Du får inte ta bort den här platsen!" }, status: :unauthorized
+                render json: { error: "Du får inte ta bort en annan användares picknickplats" }, status: :unauthorized
             end
-        end
         else
-            render json: { error: "Kan inte hitta den efterfrågade platsen" }, status: :bad_request
+            render json: { error: "Hittar inte picknickplatsen" }, status: :bad_request
         end
+         
+         
+         
         # if @place = Place.find_by_id(params["id"])
         #     @place = Place.find_by_id_and_user_id(params["id"], @user.id) || nil
         # if @place.nil?
