@@ -5,6 +5,9 @@ class Place < ActiveRecord::Base
     has_many :comments
     belongs_to :user
     
+    reverse_geocoded_by :latitude, :longitude
+    after_validation :reverse_geocode
+    
     validates :city, presence: true,
                      length: {maximum: 50}
                      

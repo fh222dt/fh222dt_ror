@@ -1,12 +1,12 @@
 class PlacesController < ApplicationController
     before_action :offset_params, only: [:index]
-    before_action :authenticate, only: [:create, :update]
+    before_action :authenticate, only: [:create, :update, :destroy]
     before_action :api_key
     
     respond_to :json
     
     def index
-        places = Place.limit(@limit).offset(@offset)
+        places = Place.order(updated_at: :desc).limit(@limit).offset(@offset)
         no = Place.distinct.count(:id);
         
         respond_with places, status: :ok, location: places_path, no_of_places: no
@@ -24,13 +24,14 @@ class PlacesController < ApplicationController
     
     def create
         place = Place.new(place_params)
-        place.user_id = current_user.id             #TODO är detta säkert?
+        place.user_id = current_user.id
         
         #is there any tags to this picknick place?
         if place_params[:tags].present?
-            tags = place_params[:tags]
-            tags.each do |t|
-                place.tags << Tag.where(tag).first_or_create
+            @tags = Tag.where(tag).first_or_create
+            #place_params[:tags]
+            @tags.each do |tag|
+                place.tags << @tags
             end
         end
         
@@ -72,10 +73,25 @@ class PlacesController < ApplicationController
         end
     end
     
+    def nearby
+        if params[:long].present? && params[:lat].present?
+            p = Place.near([params[:lat].to_f, params[:long].to_f], 50).limit(@limit).offset(@offset)
+            if p.nil?
+                respond_with p, status: :ok
+            else
+                render json: { message: "Det finns inga picknickplatser i valt område ännu" }, status: :ok
+            end
+        else
+            render json: { error: "Hittar inga picknickplatser, stämmer parametrarna?" }, status: :bad_request
+        end
+    end
     
     
     
+    private
     def place_params    #TODO
-        params.permit(:city, :description)
+        json_params = ActionController::Parameters.new( JSON.parse(request.body.read) )
+        json_params.require(:place).permit(:city, :description, :latitude, :longitude)
+        #params.permit(:city, :description, tags: [:name], )
     end
 end
