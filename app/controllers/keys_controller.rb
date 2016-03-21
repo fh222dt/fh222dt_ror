@@ -2,7 +2,7 @@ class KeysController < ApplicationController
     before_action :require_login
     
     def index
-        @allkeys = @current_user.keys.paginate(page: params[:page])
+        @allkeys = @session_user.keys.paginate(page: params[:page])
     end
     
     def new 
@@ -11,7 +11,7 @@ class KeysController < ApplicationController
     
     def create
         @apikey = Key.new(apikey_params)
-        @apikey.user_id = @current_user.id
+        @apikey.user_id = @session_user.id
         if @apikey.save
             redirect_to keys_path
         else
@@ -23,7 +23,7 @@ class KeysController < ApplicationController
         k = Key.find_by_id(params[:id])
         k.destroy
         flash[:notice] = "Apinyckel borttagen"
-        if @current_user.isAdmin
+        if @session_user.isAdmin
             redirect_to admin_path
         else
             redirect_to keys_path

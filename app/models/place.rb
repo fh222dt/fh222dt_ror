@@ -21,12 +21,13 @@ class Place < ActiveRecord::Base
     end
     
     #TODO
-    #tag
-    #enskild
-    #all från samma anv
-    #i närheten??? geografiskt omr
     def place_links
-        {:self =>place_path(self), :user =>user_path(self)}
+        {
+            :self =>place_path(self), 
+            :user =>user_path(self.user_id), 
+            :tags => tag_path(self.tags)
+            
+        }
     end
     
 end

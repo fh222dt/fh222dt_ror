@@ -2,8 +2,8 @@ class CreateTags < ActiveRecord::Migration
   def change
     create_table :tags do |t|
       
-      #no fk to place
-      t.belongs_to :place
+
+      #t.belongs_to :place
       
       t.string "name", :null => false, :limit => 50
 

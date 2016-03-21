@@ -20,10 +20,10 @@ class ApplicationController < ActionController::Base
     @limit  ||= LIMIT
   end
   
-  #TODO används av andra delar!!! Byt namn??
-  # def current_user
-  #   @current_user ||= User.find(session[:userid]) if session[:userid]
-  # end
+  
+   def session_user
+     @session_user ||= User.find(session[:userid]) if session[:userid]
+   end
   
   def require_login
     if current_user.nil? then
