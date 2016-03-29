@@ -53,7 +53,7 @@ tag6 = Tag.create(name: 'Handikappanpassat')
   long = Faker::Address.longitude
   lat = Faker::Address.latitude
   city = Faker::Address.city
-  desc = Faker::Lorem.paragraph
+  desc = Faker::Lorem.sentences(1)
   
  picknick = Place.create!(user_id: user,
                 longitude: long,

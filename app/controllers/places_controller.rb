@@ -26,7 +26,7 @@ class PlacesController < ApplicationController
         place = Place.new(place_params)
         place.user_id = current_user.id
         
-        #is there any tags to this picknick place?
+        #is there any tags to this picknick place?              #TODO
         if place_params[:tags].present?
             @tags = Tag.where(tag).first_or_create
             #place_params[:tags]
@@ -91,7 +91,7 @@ class PlacesController < ApplicationController
     private
     def place_params    #TODO
         json_params = ActionController::Parameters.new( JSON.parse(request.body.read) )
-        json_params.require(:place).permit(:city, :description, :latitude, :longitude)
+        json_params.require(:place).permit(:city, :description, :latitude, :longitude, tags: [:name])
         #params.permit(:city, :description, tags: [:name], )
     end
 end

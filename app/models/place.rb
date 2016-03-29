@@ -5,8 +5,8 @@ class Place < ActiveRecord::Base
     has_many :comments
     belongs_to :user
     
-    reverse_geocoded_by :latitude, :longitude
-    after_validation :reverse_geocode
+    #reverse_geocoded_by :latitude, :longitude
+    #after_validation :reverse_geocode
     
     validates :city, presence: true,
                      length: {maximum: 50}
@@ -14,20 +14,25 @@ class Place < ActiveRecord::Base
     validates :description, presence: true,
                      length: {maximum: 150}
     
-    def as_json(options={})
-        super(options.merge(:except =>[:created_at],
-        :include =>[:comments => {:except =>[:id, :user_id, :place_id, :updated_at]},:tags => {:except =>[:id, :created_at, :updated_at]} ],
-        :methods => :place_links))
+    
+    def serializable_hash (options={})
+        options= {
+            :except => [:created_at],
+            :include => [:comments, tags: {:only =>[:name]} ],
+            :methods => :place_links
+        }
+        super(options)
     end
     
-    #TODO
+    
     def place_links
-        {
-            :self =>place_path(self), 
-            :user =>user_path(self.user_id), 
-            :tags => tag_path(self.tags)
+        links ={
+            self: place_path(self), 
+            user: user_path(self.user_id), 
+            tags: tag_path(self.tags)           #TODO ger en konstig länk
             
         }
+        return links
     end
     
 end

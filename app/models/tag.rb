@@ -9,6 +9,9 @@ class Tag < ActiveRecord::Base
     end
     #TODO
     def tags_links
-        #{:self =>tag_path(self)}
+        links ={
+            self: tag_path(self)
+        }
+        return links
     end
 end

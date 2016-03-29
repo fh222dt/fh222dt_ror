@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
    end
   
   def require_login
-    if current_user.nil? then
+    if session_user.nil? then
       redirect_to root_path
     end
   end
@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
     response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
   
-  #TODO
+  #TODO ta bort för att nyckeldelen ska funka
   
   # def default_format_json
   #   if((request.headers["HTTP_ACCEPT"].nil? && params[:format].nil?))
