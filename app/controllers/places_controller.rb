@@ -26,26 +26,24 @@ class PlacesController < ApplicationController
         place = Place.new(place_params)
         place.user_id = current_user.id
         
-        #is there any tags to this picknick place?              #TODO
-        if place_params[:tags].present?
-            @tags = Tag.where(tag).first_or_create
-            #place_params[:tags]
-            @tags.each do |tag|
-                place.tags << @tags
-            end
+        #is there any tags to this picknick place? 
+        if params[:tag].present?
+            @tag = Tag.find_by_name(params[:tags]) || Tag.new(name: params["tag"])
+            place.tags << @tag
         end
         
         if place.save
             respond_with place, status: :created
         else
-            render json: { errors: place.errors.messages }, status: :bad_request
+            render json: { error: "Kunde inte lägga till platsen, stämmer parametrarna?" }, status: :bad_request
         end
     end
     
-    def update
+    def update                      #:city, :description, :latitude, :longitude, tags: [:name]
         if @place = Place.find_by_id(params[:id])
             if current_user.id == @place.user_id
-                if @place.update(city: params["city"], description: params["description"]);     #TODO fyll på med fler
+                #if @place.update(city: params["city"], description: params["description"], tags: params["tags: [:name]"], );     #TODO fyll på med fler
+                if @place.update(place_params);
                      respond_with @place do |format|
                         format.json { render json: { action: "update", place: @place }, status: :ok }
                         end
@@ -86,12 +84,8 @@ class PlacesController < ApplicationController
         end
     end
     
-    
-    
     private
-    def place_params    #TODO
-        json_params = ActionController::Parameters.new( JSON.parse(request.body.read) )
-        json_params.require(:place).permit(:city, :description, :latitude, :longitude, tags: [:name])
-        #params.permit(:city, :description, tags: [:name], )
+    def place_params
+        params.permit(:city, :description, :latitude, :longitude)
     end
 end
