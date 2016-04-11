@@ -16,13 +16,14 @@ users = User.create (
 )
 
 api_keys = Key.create (
-    [
+    [   
         {key: SecureRandom.urlsafe_base64, application_name: 'Turist Nord', url: 'www.turistnord.se', user_id: 1},
         {key: SecureRandom.urlsafe_base64, application_name: 'Västkusten', url: 'www.vastkusten.se', user_id: 1},
         {key: SecureRandom.urlsafe_base64, application_name: 'Visit Gränna', url: 'www.polkagrisar.se', user_id: 2},
         {key: SecureRandom.urlsafe_base64, application_name: 'Gränna Stad', url: 'www.granna.se', user_id: 2},
         {key: SecureRandom.urlsafe_base64, application_name: 'Upplands Bro Kommun', url: 'www.upplandsbro.se', user_id: 3},
         {key: SecureRandom.urlsafe_base64, application_name: 'Mälardalsleden', url: 'www.malardalsleden.se', user_id: 3},
+        {key: '4THfq1zw8fYklpaqZW4MKA', application_name: 'Postman app', url: 'www.postman.se', user_id: 3},
         
     ]    
 )

@@ -5,8 +5,15 @@ class Place < ActiveRecord::Base
     has_many :comments
     belongs_to :user
     
-    #reverse_geocoded_by :latitude, :longitude
-    #after_validation :reverse_geocode
+    def address
+        adress=:city
+    end
+    #TODO
+    #geocoded_by address
+    #after_validation :geocode
+    
+    reverse_geocoded_by :latitude, :longitude
+    after_validation :reverse_geocode
     
     validates :city, presence: true,
                      length: {maximum: 50}
@@ -18,7 +25,7 @@ class Place < ActiveRecord::Base
     def serializable_hash (options={})
         options= {
             :except => [:created_at],
-            :include => [:comments, tags: {:only =>[:name]} ],
+            :include => [tags: {:only =>[:name]} ],
             :methods => :place_links
         }
         super(options)
@@ -29,8 +36,6 @@ class Place < ActiveRecord::Base
         links ={
             self: place_path(self), 
             user: user_path(self.user_id), 
-            tags: tag_path(self.tags)           #TODO ger en konstig länk
-            
         }
         return links
     end

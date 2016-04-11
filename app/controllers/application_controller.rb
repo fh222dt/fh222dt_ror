@@ -39,14 +39,6 @@ class ApplicationController < ActionController::Base
     response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
   
-  #TODO ta bort för att nyckeldelen ska funka
-  
-  # def default_format_json
-  #   if((request.headers["HTTP_ACCEPT"].nil? && params[:format].nil?))
-  #     request.format ="json"
-  #   end
-  # end
-  
   def api_key
     if
      Key.find_by(key: params[:api_key])

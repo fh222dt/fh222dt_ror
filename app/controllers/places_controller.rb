@@ -5,11 +5,11 @@ class PlacesController < ApplicationController
     
     respond_to :json
     
-    def index
+    def index       #TODO offset & limit
         places = Place.order(updated_at: :desc).limit(@limit).offset(@offset)
         no = Place.distinct.count(:id);
         
-        respond_with places, status: :ok, location: places_path, no_of_places: no
+        respond_with places, status: :ok, no_of_places: no, offset: @offset, limit: @limit
     end
     
     def show
@@ -26,8 +26,6 @@ class PlacesController < ApplicationController
         place = Place.new(place_params.except(:tags, :latitude, :longitude))
         place.user_id = current_user.id
         if params[:tags].present?
-            #@tag = Tag.find_by_name(params[:tags]) || Tag.new(name: params["tag"])
-            #place.tags << @tag
              tags = params[:tags]
              tags.each do |tag|
                 if Tag.find_by(name: tag)
@@ -53,8 +51,7 @@ class PlacesController < ApplicationController
         end
     end
     
-    #NOT WORKING
-    def update                      #:city, :description, :latitude, :longitude, tags: [:name]
+    def update
         if place = Place.find_by_id(params[:id])
             if current_user.id == place.user_id
                 update_params = place_params
@@ -76,17 +73,7 @@ class PlacesController < ApplicationController
                 end
                 
                 if place.save
-                    respond_with place, status: :ok
-                
-                
-                
-                #if place.update(city: params["city"], description: params["description"])#, tags: params["tag"], latitude: params["latitude"], longitude: params["longitude"] );     #TODO fyll på med fler
-                #if place.update(place_params)
-                    #  respond_with @place do |format|
-                    #     format.json { render json: { action: "update", place: @place }, status: :ok }
-                    #  end
-                 #     respond_with place, status: :ok
-                      #render json: place, status: :ok
+                    render json: { action: "update", message: "Picknickplats uppdaterad" }, status: :ok
                 else
                     render json: { error: "Kunde inte uppdatera platsen, stämmer parametrarna?" }, status: :bad_request
                 end
@@ -123,11 +110,6 @@ class PlacesController < ApplicationController
             render json: { error: "Hittar inga picknickplatser, stämmer parametrarna?" }, status: :bad_request
         end
     end
-    
-    #private
-    # def place_params
-    #     params.permit(:city, :description, :latitude, :longitude)
-    # end
     
     def place_params
         parameters = ActionController::Parameters.new(

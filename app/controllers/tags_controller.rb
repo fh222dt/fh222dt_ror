@@ -17,7 +17,7 @@ class TagsController < ApplicationController
         
         if @tag.present?
             respond_with @tag, location: tags_path(@tag), 
-            :include =>[:places => {:except => [:created_at] } ]
+            :include =>[:places => {:except => [:created_at] },  ]
         else
             render json: { error: "Taggen hittades inte. Har du skrivit rätt id?"}, status: :not_found
         end
