@@ -5,17 +5,15 @@ class Place < ActiveRecord::Base
     has_many :comments
     belongs_to :user
     
-    def address
-        adress=:city
-    end
-    #TODO
-    #geocoded_by address
-    #after_validation :geocode
+    
+    #TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    geocoded_by :address
+    after_validation :geocode, :if => :address_changed?
     
     reverse_geocoded_by :latitude, :longitude
     after_validation :reverse_geocode
     
-    validates :city, presence: true,
+    validates :address, presence: true,
                      length: {maximum: 50}
                      
     validates :description, presence: true,

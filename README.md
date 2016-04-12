@@ -23,6 +23,7 @@ att du börjar med att köra "Authenticate your self" från postman-filen. Då f
 Den används sedan i form av en Authorization headers när du ska göra något av ovan nämnda.
 
 Man måste även skicka med en api-nyckel på varje anrop genom att skriva in den i slutet på varje anrop tex:
+
 .../places?api_key=4THfq1zw8fYklpaqZW4MKA
 
 I övrigt finns det exempel för alla möjliga slags anrop i postman-filen så lek gärna med api:et med utgångspunkt från den. 

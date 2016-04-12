@@ -5,7 +5,7 @@ class PlacesController < ApplicationController
     
     respond_to :json
     
-    def index       #TODO offset & limit
+    def index       #TODO offset & limit links?????
         places = Place.order(updated_at: :desc).limit(@limit).offset(@offset)
         no = Place.distinct.count(:id);
         
@@ -55,7 +55,7 @@ class PlacesController < ApplicationController
         if place = Place.find_by_id(params[:id])
             if current_user.id == place.user_id
                 update_params = place_params
-                place.city = params[:city] if update_params[:city].present?
+                place.address = params[:address] if update_params[:address].present?
                 place.description = params[:description] if update_params[:description].present?
                 place.latitude = params[:latitude] if update_params[:latitude].present?
                 place.longitude = params[:longitude] if update_params[:longitude].present?
@@ -100,8 +100,8 @@ class PlacesController < ApplicationController
     
     def nearby
         if params[:long].present? && params[:lat].present?
-            p = Place.near([params[:lat].to_f, params[:long].to_f], 50).limit(@limit).offset(@offset)
-            if p.nil?
+            p = Place.near([params[:lat], params[:long]], 10, units: :km)
+            unless p.empty?
                 respond_with p, status: :ok
             else
                 render json: { message: "Det finns inga picknickplatser i valt område ännu" }, status: :ok
@@ -115,13 +115,13 @@ class PlacesController < ApplicationController
         parameters = ActionController::Parameters.new(
           place:
           {
-            city: params[:city],
+            address: params[:address],
             description: params[:description],
             latitude: params[:latitude],
             longitude: params[:longitude],
             tags: params[tags: []]
           }
         )
-        parameters.require(:place).permit(:city, :description, :latitude, :longitude, :tags)
+        parameters.require(:place).permit(:address, :description, :latitude, :longitude, :tags)
     end
 end
