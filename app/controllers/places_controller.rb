@@ -5,7 +5,7 @@ class PlacesController < ApplicationController
     
     respond_to :json
     
-    def index       #TODO offset & limit links?????
+    def index
         places = Place.order(updated_at: :desc).limit(@limit).offset(@offset)
         no = Place.distinct.count(:id);
         

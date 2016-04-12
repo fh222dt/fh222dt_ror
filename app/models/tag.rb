@@ -7,7 +7,7 @@ class Tag < ActiveRecord::Base
         super(options.merge(:except =>[:created_at, :updated_at],
         :methods => :tags_links))
     end
-    #TODO
+    
     def tags_links
         links ={
             self: tag_path(self)

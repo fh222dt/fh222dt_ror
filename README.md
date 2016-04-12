@@ -3,6 +3,7 @@
 För att komma igång
 
 Ladda ner repot & kör sedan följande kommandon i terminalen:
+
 * bundle install
 * rake db:setup
 
@@ -15,7 +16,7 @@ Du loggar in med alla typer av användare från samma formulär på startsidan
 Fler användare finns i seedsfilen där man även kan se en api-nyckel som alltid genereras och sedan används i postman
 
 ###Postman
-Det finns en postman-fil här: 
+Det finns en postman-fil här: [https://github.com/fh222dt/fh222dt_ror/blob/master/PicknickAPI.json.postman_collection](https://github.com/fh222dt/fh222dt_ror/blob/master/PicknickAPI.json.postman_collection)
 
 ###Dokumentation API
 För att kunna använda api:et måste du vara autentisierad för att kunna lägga till, uppdatera eller ta bort de resurser du själv äger. Jag föreslår
