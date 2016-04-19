@@ -100,7 +100,7 @@
 		{
 			"id": "7418a5fc-e832-949c-f9b1-44a64ce79056",
 			"headers": "Content-Type: application/json\nAuthorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjA0NzY1MDIsImF1ZCI6ZmFsc2UsInN1YiI6M30.S9gQh0EovceT90MKrgsuAdgbF-csAx2aBIm1A-pR9uM\n",
-			"url": "https://mapap-fh222dt.c9users.io/places?api_key=4THfq1zw8fYklpaqZW4MKA&city=Bro&description=Mälarens kant&tags[]=Vattennära",
+			"url": "https://mapap-fh222dt.c9users.io/places?api_key=4THfq1zw8fYklpaqZW4MKA&address=Bro&description=Mälarens kant&tags[]=Vattennära",
 			"pathVariables": {},
 			"preRequestScript": null,
 			"method": "POST",
@@ -121,7 +121,7 @@
 		{
 			"id": "987e2091-31ce-465f-ace9-9b5fdb8f7adf",
 			"headers": "Content-Type: application/json\nAuthorization: {{key}}\n",
-			"url": "https://mapap-fh222dt.c9users.io/places?api_key=4THfq1zw8fYklpaqZW4MKA&city=Mariestad&description=Hamnen&tags[]=Vattennära&tags[]=Sjöutsikt",
+			"url": "https://mapap-fh222dt.c9users.io/places?api_key=4THfq1zw8fYklpaqZW4MKA&address=Mariestad&description=Hamnen&tags[]=Vattennära&tags[]=Sjöutsikt",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "POST",
