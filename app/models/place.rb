@@ -10,12 +10,14 @@ class Place < ActiveRecord::Base
     
     reverse_geocoded_by :latitude, :longitude
     after_validation :reverse_geocode
-    
-    validates :address, presence: true,
+    # presence: true, if: :paid_with_card?
+    validates :address, presence: true, :unless => :longitude,
                      length: {maximum: 50}
                      
     validates :description, presence: true,
                      length: {maximum: 150}
+                     
+    scope :search, -> (query) {where("lower(description) like ?", "%#{query.downcase}%").group(:id)}
     
     
     def serializable_hash (options={})

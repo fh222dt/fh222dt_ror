@@ -59,3 +59,5 @@ gem 'knock'
 
 gem 'geocoder'
 
+gem 'rack-cors', :require => 'rack/cors'
+

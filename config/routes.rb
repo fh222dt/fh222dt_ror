@@ -7,13 +7,15 @@ Rails.application.routes.draw do
   root 'users#index'
   
   
+  
+  
   get 'places/nearby' =>'places#nearby'
   
   resources :keys
-  resources :users
-  resources :places
-  resources :comments
-  resources :tags
+  resources :users #, defaults: {format: :json}
+  resources :places, defaults: {format: :json}
+  resources :comments, defaults: {format: :json}
+  resources :tags, defaults: {format: :json}
   
   
   

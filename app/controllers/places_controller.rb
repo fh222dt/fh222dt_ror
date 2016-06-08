@@ -2,14 +2,21 @@ class PlacesController < ApplicationController
     before_action :offset_params, only: [:index]
     before_action :authenticate, only: [:create, :update, :destroy]
     before_action :api_key
+    skip_before_filter  :verify_authenticity_token
     
     respond_to :json
     
     def index
         places = Place.order(updated_at: :desc).limit(@limit).offset(@offset)
-        no = Place.distinct.count(:id);
+        if places.present?
+            places = places.search(params[:query]) if params[:query]
         
-        respond_with places, status: :ok, no_of_places: no, offset: @offset, limit: @limit
+            response = {places: places, offset: @offset, limit: @limit, no_of_places: places.count}
+        
+            respond_with response, status: :ok
+        else
+            render json: { error: "Inga picknickplatser hittades"}, status: :not_found
+        end
     end
     
     def show

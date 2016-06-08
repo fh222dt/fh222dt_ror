@@ -7,9 +7,14 @@ class TagsController < ApplicationController
     
     def index
         @tags = Tag.limit(@limit).offset(@offset)
-        no = Tag.distinct.count(:id);
+        # no = Tag.distinct.count(:id);
         
-        respond_with @tags, status: :ok, location: tags_path, no_of_tags: no
+        response = {tags: @tags, offset: @offset, limit: @limit, no_of_tags: @tags.count, location: tags_path }
+        
+        # respond_with places, status: :ok, no_of_places: no, offset: @offset, limit: @limit
+        respond_with response, status: :ok
+        
+        # respond_with @tags, status: :ok, location: tags_path, no_of_tags: no
     end
     
     def show
