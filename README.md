@@ -28,3 +28,12 @@ Man måste även skicka med en api-nyckel på varje anrop genom att skriva in de
 .../places?api_key=4THfq1zw8fYklpaqZW4MKA
 
 I övrigt finns det exempel för alla möjliga slags anrop i postman-filen så lek gärna med api:et med utgångspunkt från den. 
+
+
+###Förändringar inför clientappen
+Jag har gjort om mina routes så att de som hör till APIet bara svarar med json. Innan jag gjorde detta fick jag 408-fel. 
+
+Sen har jag använt gemet cors som blev rekommenderat. Enkelt att använda. Fick trixa lite med vilka format som ska godkännas bara.
+
+Jag har också ändrat så att mina svar kommer som ett json objekt istället för en array. Jag har också lagt till så det går att söka på 
+beskrivningar till platserna, det hade jag råkat glömma från förra gången.
